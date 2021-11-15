@@ -11,4 +11,6 @@ func main() {
 	fmt.Println(format)
 	before := unix.Before(time.Now())
 	fmt.Println(before)
+
+	fmt.Println("hello world!")
 }
