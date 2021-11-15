@@ -13,4 +13,5 @@ func main() {
 	fmt.Println(before)
 
 	fmt.Println("hello world!")
+	fmt.Println("hello world!2")
 }
