@@ -49,6 +49,8 @@ func main() {
 		n := rand.Int31n(10)
 		fmt.Println(n)
 	}
+	fmt.Println("hello1")
+	fmt.Println("hello2")
 	return
 	var d D
 	d.Data = `{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","platform_id":3,"application_id":1001,"channel_id":10611001,"agent_id":0,"user_id":3485,"month":202204,"date":20220401,"is_active":0,"betting_time":0,"betting_out_time":0,"betting_duration":0,"betting_amount":250,"betting_count":0,"win_lose_amount":-250,"tax_amount":0,"rebate_amount":-250,"income_rate":0,"win_lose_tax_rate":0,"win_lose_betting_rate":0,"all_bets":250,"all_bonus":0,"jp_bonus":0,"jp_contri":0,"betting_number":0}`
