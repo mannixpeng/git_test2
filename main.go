@@ -3,17 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/shopspring/decimal"
-	"gorm.io/gorm"
 	"math/rand"
 	"time"
+
+	"github.com/shopspring/decimal"
+	"gorm.io/gorm"
 )
-
-
 
 type User struct {
 	gorm.Model
-	Age int64 `gorm:"type:bigint(19);size:15"`
+	Age  int64  `gorm:"type:bigint(19);size:15"`
 	Name string `gorm:"unique"`
 	//CompanyID int
 	//Company Company
@@ -21,10 +20,8 @@ type User struct {
 	Amount decimal.Decimal `gorm:"type:decimal(10,2)"`
 }
 
-
-
 type Company struct {
-	ID int
+	ID   int
 	Name string
 	Code string
 }
@@ -42,15 +39,17 @@ type User111 struct {
 }
 
 type D struct {
-	Data string `json:"data"`
-	LogId int64 `json:"log_id"`
+	Data  string `json:"data"`
+	LogId int64  `json:"log_id"`
 }
+
 func main() {
 	rand.Seed(time.Now().UnixNano())
-	for i:=0;i < 100;i++ {
+	for i := 0; i < 100; i++ {
 		n := rand.Int31n(10)
 		fmt.Println(n)
 	}
+
 	return
 	var d D
 	d.Data = `{"id":0,"created_at":"0001-01-01T00:00:00Z","updated_at":"0001-01-01T00:00:00Z","platform_id":3,"application_id":1001,"channel_id":10611001,"agent_id":0,"user_id":3485,"month":202204,"date":20220401,"is_active":0,"betting_time":0,"betting_out_time":0,"betting_duration":0,"betting_amount":250,"betting_count":0,"win_lose_amount":-250,"tax_amount":0,"rebate_amount":-250,"income_rate":0,"win_lose_tax_rate":0,"win_lose_betting_rate":0,"all_bets":250,"all_bonus":0,"jp_bonus":0,"jp_contri":0,"betting_number":0}`
@@ -100,5 +99,5 @@ func main() {
 func timeSub(t1, t2 time.Time) int {
 	t1 = t1.UTC().Truncate(24 * time.Hour)
 	t2 = t2.UTC().Truncate(24 * time.Hour)
-	return int(t1.Sub(t2).Hours() / 24) % 7
+	return int(t1.Sub(t2).Hours()/24) % 7
 }
