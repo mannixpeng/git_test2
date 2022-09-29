@@ -12,11 +12,11 @@ func TestErrorHandler(t *testing.T) {
 	//fmt.Println(err)
 }
 
-func A() error {
+func A() error{
 	return B()
 }
 
-func B() error {
+func B() error{
 	err := fmt.Errorf("err failed")
 	//err := errors.New("err failed")
 	wErr := errors.Wrap(err, "test error")
