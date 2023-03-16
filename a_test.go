@@ -25,6 +25,8 @@ func Test1(t *testing.T) {
 		return true
 	})
 	t.Log(ints)
+
+	t.Log("test1")
 }
 
 func Test2(t *testing.T) {
