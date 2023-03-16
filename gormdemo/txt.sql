@@ -1,0 +1,4 @@
+INSERT INTO `platform`.`admins` (`id`, `created_at`, `updated_at`, `platform_id`, `uuid`, `avatar`, `nickname`, `username`, `password`, `authority_id`, `last_time`, `last_ip`, `mtoken_status`, `platform_name`, `status`) VALUES (56, '2021-10-14 04:49:50', '2023-03-14 08:51:39', 42, 'e06afd23-4fe2-4a15-9280-fb5fe4617ee8', 'assets/avater.png', '', 'sportwin', '$2a$10$Rx9UXU/GdHMOc2PxulgiE.mHHuKAF0qjK5H20uG/z6yI1BUZGNLqG', 'admin', '2023-03-14 08:51:39', '154.19.156.17', 0, '客户5', 1);
+
+INSERT INTO `task`.`admins` (`id`, `created_at`, `updated_at`, `platform_id`, `uuid`, `avatar`, `nickname`, `username`, `password`, `authority_id`, `last_time`, `last_ip`, `status`, `mtoken_status`) VALUES (52, '2021-10-26 21:26:59', '2023-03-07 06:26:37', 42, 'de6d4e3f-68eb-407b-9151-80a11c28558f', 'assets/avater.png', '', 'sportwin', '$2a$10$ympZ7WXcVcZvqJVxEdZXl.2EMJ3udItYn.ACO8YgOzXPPd6sGtg/O', 'admin', '2023-03-07 06:26:37', '154.19.156.17', 1, 1);
+

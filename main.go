@@ -3,7 +3,10 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"math"
 	"math/rand"
+	"sort"
+	"sync"
 	"time"
 
 	"github.com/shopspring/decimal"
@@ -43,7 +46,81 @@ type D struct {
 	LogId int64  `json:"log_id"`
 }
 
+func Test(models *[]int) {
+	*models = append(*models, 2)
+	return
+}
+
+var letterRunes = []rune("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+func RandStringRunes(n int) string {
+	time.Sleep(1 * time.Millisecond)
+	rand.Seed(time.Now().UnixNano())
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
+}
+
 func main() {
+
+	format := time.Now().Format("2006-01-02")
+	sprintf := fmt.Sprintf("%s 23:59:59", format)
+	fmt.Println(sprintf)
+	return
+	fmt.Println(format)
+	return
+	channels := make([]int, 6)
+	for i := 0; i < 10; i++ {
+		rand.Seed(time.Now().UnixNano())
+		idx := rand.Intn(len(channels))
+		fmt.Println(idx)
+	}
+
+	return
+
+	int64s := []int64{2, 4, 1, 5, 6}
+
+	sort.Slice(int64s, func(i, j int) bool {
+		if int64s[i] > int64s[j] {
+			return true
+		}
+		return false
+	})
+	fmt.Println(int64s)
+	return
+
+	var mu sync.Mutex
+	var wg sync.WaitGroup
+	m := make(map[string]struct{})
+	for i := 0; i < 10; i++ {
+		time.Sleep(1 * time.Second)
+		for j := 0; j < 1000; j++ {
+			runes := RandStringRunes(8)
+			fmt.Println(runes)
+			mu.Lock()
+			m[runes] = struct{}{}
+			mu.Unlock()
+		}
+	}
+	wg.Wait()
+	fmt.Println(len(m))
+	return
+	userIds := make([]int, 0)
+	userIds = append(userIds, 1)
+	userIds = append(userIds, 1)
+	userIds = append(userIds, 1)
+	userIds = append(userIds, 1)
+	userIds = append(userIds, 1)
+	userIds = append(userIds, 1)
+	userIds = append(userIds, 1)
+	Test(&userIds)
+	fmt.Println(userIds)
+	return
+	n := int(math.Ceil(float64(len(userIds)) / 3))
+	fmt.Println(n)
+	return
 	rand.Seed(time.Now().UnixNano())
 	for i := 0; i < 100; i++ {
 		n := rand.Int31n(10)

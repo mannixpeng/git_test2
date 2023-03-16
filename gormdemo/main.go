@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
+	"sync"
+	"time"
+
 	"github.com/gogf/gf/database/gdb"
 	"github.com/gogf/gf/frame/g"
 	"github.com/gogf/gf/os/gtime"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
-	"sync"
-	"time"
 )
 
 type PlatformReportDay struct {
@@ -102,6 +103,10 @@ func (p *PlatformReportDay) TableName() string {
 	return "report_platform_day"
 }
 
+//func (p *PlatformReportDay) Database() string {
+//	return "usercenter"
+//}
+
 type T struct {
 	A int64
 }
@@ -134,44 +139,6 @@ func Test(ctx context.Context) {
 
 var wg sync.WaitGroup
 
-func main2() {
-	Test(context.Background())
-	return
-
-	ctx, cancelFunc := context.WithTimeout(context.Background(), 3*time.Second)
-	Timeout(ctx)
-	cancelFunc()
-	fmt.Println("end")
-	time.Sleep(15 * time.Second)
-
-}
-
-func Timeout(ctx context.Context) {
-	ch := make(chan string)
-	go func() {
-		time.Sleep(time.Second * 4)
-		fmt.Println("hello")
-		ch <- "done"
-	}()
-
-	select {
-	case res := <-ch:
-		fmt.Println(res)
-	case <-ctx.Done():
-		fmt.Println("timout", ctx.Err())
-	}
-}
-
-func watch(ctx context.Context, flag int) {
-	defer wg.Done()
-
-	func() {
-		fmt.Printf("doing something flag:%d\n", flag)
-		time.Sleep(50 * time.Second)
-		fmt.Println("finished flag:", flag)
-	}()
-}
-
 type DailyBettingPending struct {
 	gorm.Model
 	LogId  int64  `json:"log_id" gorm:"column:log_id;comment:日志id;type:bigint;size:19;unique_index:uniq_idx_log_id"`
@@ -182,8 +149,6 @@ type DailyBettingPending struct {
 func (i *DailyBettingPending) TableName() string {
 	return "daily_betting_pending"
 }
-
-
 
 //func getPlatform() int {
 //	rand.Seed(time.Now().UnixNano())
@@ -247,7 +212,7 @@ func main() {
 	format := time.Unix(10000, 0).Format("20060102")
 	fmt.Println(format)
 	//// refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
-	dsn := "root:MySql@Admin123@tcp(172.16.130.28:3306)/test?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:123456@tcp(172.16.130.206:3306)/usercenter?"
 	c := logger.Default
 	c.LogMode(logger.Info)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
@@ -260,15 +225,32 @@ func main() {
 	if err := db.AutoMigrate(&PlatformReportDay{}); err != nil {
 		panic(err)
 	}
-	commission := UserAgentCommission{
-		Id: "20220414_8033245",
-		Idx: 25320,
-		Comment: "SXXXX",
+	commission := PlatformReportDay{
+		PlatformId:    2,
+		ApplicationId: 1002,
 	}
-	id, err := g.DB().Model(&commission).InsertAndGetId(commission)
-	fmt.Println(id, err)
-	_, errs := g.DB().Model(&commission).Where("id = ?", commission.Id).Save(&commission)
-	fmt.Println(errs)
+	row, err := g.DB().Table(&commission).Save(commission)
+	if err != nil {
+		panic(err)
+	} else {
+		id, err := row.LastInsertId()
+		if err != nil {
+			panic("LastInsertId failed, err: " + err.Error())
+			return
+		} else {
+			fmt.Println("id: ", id)
+		}
+		fmt.Printf("rowLastId: %d\n", id)
+		affected, err := row.RowsAffected()
+		if err != nil {
+			panic("RowsAffected failed, err: " + err.Error())
+		} else {
+			panic(fmt.Sprintf("RowsAffected, %d", affected))
+		}
+	}
+	//fmt.Println(id, err)
+	//_, errs := g.DB().Model(&commission).Where("id = ?", commission.Id).Save(&commission)
+	//fmt.Println(errs)
 
 	//for i := 0; i < 1000; i++ {
 	//	d := i
@@ -335,20 +317,20 @@ func test(i int) {
 		Month:      202204,
 		PlatformId: i,
 	}
-	go func() {
-		g.DB().Transaction(context.Background(), func(ctx context.Context, tx *gdb.TX) error {
-			var d PlatformReportDay
-			tx.Model(day.TableName()).LockUpdate().Where(g.Map{"month": 202204}).Fields("month").Struct(&day)
-			fmt.Println("g1: ", d.ID)
-			fmt.Println("g1: ", d.Month)
-			if d.ID == 0 {
-				id, _ := tx.Model(day.TableName()).Save(&day)
-				fmt.Println(id)
-			}
-			time.Sleep(1 * time.Second)
-			return nil
-		})
-	}()
+	//go func() {
+	//	g.DB().Transaction(context.Background(), func(ctx context.Context, tx *gdb.TX) error {
+	//		var d PlatformReportDay
+	//		tx.Model(day.TableName()).LockUpdate().Where(g.Map{"month": 202204}).Fields("month").Struct(&day)
+	//		fmt.Println("g1: ", d.ID)
+	//		fmt.Println("g1: ", d.Month)
+	//		if d.ID == 0 {
+	//			id, _ := tx.Model(day.TableName()).Save(&day)
+	//			fmt.Println(id)
+	//		}
+	//		time.Sleep(1 * time.Second)
+	//		return nil
+	//	})
+	//}()
 
 	g.DB().Transaction(context.Background(), func(ctx context.Context, tx *gdb.TX) error {
 		var d PlatformReportDay
