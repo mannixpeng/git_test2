@@ -32,6 +32,7 @@ func Test1(t *testing.T) {
 	t.Log("test5")
 	t.Log("test4")
 	t.Log("test8")
+	t.Log("test6")
 }
 
 func Test2(t *testing.T) {
