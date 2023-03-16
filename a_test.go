@@ -31,8 +31,10 @@ func Test1(t *testing.T) {
 	t.Log("test3")
 	t.Log("test5")
 	t.Log("test4")
+<<<<<<< HEAD
 	t.Log("test8")
 	t.Log("test6")
+	t.Log("test7")
 }
 
 func Test2(t *testing.T) {
