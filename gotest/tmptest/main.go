@@ -35,7 +35,7 @@ func unmarshalAndPrint(f io.Reader) error {
 
 	err = json.Unmarshal(data, &players)
 	if err != nil {
-		return err
+		return fmt.Errorf("%s", err)
 	}
 
 	for _, p := range players {

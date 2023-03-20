@@ -1,4 +1,4 @@
-package krandom
+package krandom_test
 
 import (
 	"testing"

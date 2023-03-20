@@ -27,7 +27,7 @@ func savePlayerInfo(playerInfo PlayerInfo, url string) error {
 	}
 	b, err := json.Marshal(playerInfo)
 	if err != nil {
-		return err
+		return fmt.Errorf("%s", err)
 	}
 	body := bytes.NewBuffer(b)
 	req, err := http.NewRequest("POST", url, body)
