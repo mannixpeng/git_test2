@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"go.uber.org/ratelimit"
 	"sync"
 	"time"
+
+	"go.uber.org/ratelimit"
 )
 
 //func main() {
@@ -104,18 +105,18 @@ func main() {
 	}{
 		{
 			resource: "127.0.0.1",
-			period: 1 * time.Second,
-			rate: 1,
+			period:   1 * time.Second,
+			rate:     1,
 		},
 		{
 			resource: "127.0.0.2",
-			period: 1 * time.Second,
-			rate: 1,
+			period:   1 * time.Second,
+			rate:     1,
 		},
 		{
 			resource: "127.0.0.3",
-			period: 1 * time.Second,
-			rate: 1,
+			period:   1 * time.Second,
+			rate:     1,
 		},
 	}
 	prev := time.Now()
@@ -129,5 +130,5 @@ func main() {
 			}
 		}(i)
 	}
-	time.Sleep(60 * time.Second)
+	time.Sleep(6 * time.Second)
 }
